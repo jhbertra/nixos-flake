@@ -1,0 +1,13 @@
+# One CLI to format the code tree - https://github.com/numtide/treefmt
+
+[formatter.nix]
+# Formatter to run
+command = "nixpkgs-fmt"
+# Glob pattern of files to include
+includes = [ "*.nix" ]
+
+[formatter.json]
+# Formatter to run
+command = "prettier"
+# Glob pattern of files to include
+includes = [ "*.json" ]
