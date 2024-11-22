@@ -4,12 +4,21 @@
     inputs.sops-nix.nixosModules.sops
   ];
 
+  virtualisation.vmVariant.virtualisation.sharedDirectories = {
+    sops-keys = {
+      source = "/nix/persist/var/lib/sops-nix";
+      target = "/nix/persist/var/lib/sops-nix";
+    };
+  };
+
   sops.defaultSopsFile = ./secrets/secrets.yaml;
   sops.defaultSopsFormat = "yaml";
-  sops.age.keyFile = "/home/jamie/.config/sops/age/keys.txt";
-  sops.secrets."root/hashedPassword" = { };
+  sops.age.keyFile = "/nix/persist/var/lib/sops-nix/keys.txt";
+  sops.secrets."root/hashedPassword" = {
+    neededForUsers = true;
+  };
   sops.secrets."jamie/hashedPassword" = {
-    owner = config.users.users.jamie.name;
+    neededForUsers = true;
   };
 
   nixpkgs.system = "x86_64-linux";
@@ -73,17 +82,6 @@
   services.upower.enable = true;
   services.devmon.enable = true;
 
-  services.greetd = {
-    enableStandard = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd Hyprland";
-        user = "jamie";
-      };
-    };
-  };
-
-  hardware.uinput.enable = true;
 
   users.defaultUserShell = pkgs.bash;
   users.mutableUsers = false;
@@ -98,8 +96,6 @@
       isNormalUser = true;
       group = "nogroup";
       extraGroups = [
-        "uinput"
-        "input"
         "libvirtd"
         "wheel"
         "sound"
@@ -138,4 +134,6 @@
     pulse.enable = true;
     jack.enable = true;
   };
+
+  programs.hyprland.enable = true;
 }
