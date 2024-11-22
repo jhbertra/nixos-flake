@@ -37,9 +37,9 @@
     [{ device = "/dev/disk/by-uuid/aaae3d9d-21c5-4e27-8940-6b433cd6a242"; }];
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
-  hardware.opengl.enable = true;
-  hardware.opengl.driSupport32Bit = true;
-  hardware.opengl.extraPackages = with pkgs; [
+  hardware.graphics.enable = true;
+  hardware.graphics.enable32Bit = true;
+  hardware.graphics.extraPackages = with pkgs; [
     intel-media-driver
     intel-vaapi-driver
     vaapiVdpau

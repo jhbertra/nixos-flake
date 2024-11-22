@@ -3,10 +3,8 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     systems.url = "github:nix-systems/default";
     devenv.url = "github:cachix/devenv";
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    sops-nix.url = "github:Mic92/sops-nix";
+    xremap-flake.url = "github:xremap/nix-flake";
   };
 
   nixConfig = {
@@ -43,7 +41,7 @@
                     };
                     typos.enable = true;
                   };
-                  packages = [ pkgs.nixpkgs-fmt ];
+                  packages = [ pkgs.nixpkgs-fmt pkgs.sops ];
 
                   enterShell = ''
                   '';
@@ -54,8 +52,8 @@
       nixosConfigurations.thinkpad-x1 = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
         modules = [
-          ./configuration.thinkpad-x1.nix
-          inputs.home-manager.nixosModules.default
+          ./hosts/thinkpad-x1/configuration.nix
+          ./nixosModules
         ];
       };
     };
