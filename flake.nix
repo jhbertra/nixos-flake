@@ -4,7 +4,10 @@
     systems.url = "github:nix-systems/default";
     devenv.url = "github:cachix/devenv";
     sops-nix.url = "github:Mic92/sops-nix";
-    xremap-flake.url = "github:xremap/nix-flake";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   nixConfig = {

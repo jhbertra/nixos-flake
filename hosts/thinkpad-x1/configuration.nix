@@ -2,6 +2,7 @@
   imports = [
     ./hardware-configuration.nix
     inputs.sops-nix.nixosModules.sops
+    inputs.home-manager.nixosModules.home-manager
   ];
 
   virtualisation.vmVariant.virtualisation.sharedDirectories = {
@@ -107,8 +108,19 @@
         "docker"
       ];
       hashedPasswordFile = config.sops.secrets."jamie/hashedPassword".path;
+      home = "/home/jamie";
+      createHome = true;
     };
   };
+
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    users = {
+      jamie = import ./jamie/home.nix;
+    };
+  };
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -119,6 +131,7 @@
   system.stateVersion = "21.05"; # Did you read the comment?
 
   security.sudo.wheelNeedsPassword = false;
+  security.pam.services.hyprlock = { };
 
   hardware.bluetooth = {
     enable = true;
