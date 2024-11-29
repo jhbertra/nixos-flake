@@ -10,5 +10,6 @@
     ./nushell.nix
     ./helix.nix
     ./neovim.nix
+    ./zsh.nix
   ];
 }

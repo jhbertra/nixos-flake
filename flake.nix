@@ -4,6 +4,11 @@
     systems.url = "github:nix-systems/default";
     devenv.url = "github:cachix/devenv";
     sops-nix.url = "github:Mic92/sops-nix";
+    nixos-wsl.url = "github:nix-community/NixOS-WSL";
+    vim-textobj-entire.url = "github:kana/vim-textobj-entire";
+    vim-textobj-entire.flake = false;
+    vim-textobj-line.url = "github:kana/vim-textobj-line";
+    vim-textobj-line.flake = false;
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -56,6 +61,13 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./hosts/thinkpad-x1/configuration.nix
+          ./nixosModules
+        ];
+      };
+      nixosConfigurations.wsl = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/wsl/configuration.nix
           ./nixosModules
         ];
       };
