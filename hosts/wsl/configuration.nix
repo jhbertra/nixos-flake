@@ -23,13 +23,13 @@
   services.devmon.enable = true;
 
   wsl.enable = true;
+  wsl.defaultUser = "jamie";
 
   users.defaultUserShell = pkgs.zsh;
   users.mutableUsers = true;
   users.users = {
     jamie = {
       description = "Jamie Bertram";
-      uid = 1111;
       isNormalUser = true;
       group = "nogroup";
       extraGroups = [
@@ -42,7 +42,25 @@
     };
   };
 
-  programs.zsh.enable = true;
+  programs.zsh = {
+    enable = true;
+    autosuggestions.enable = true;
+    enableBashCompletion = true;
+    ohMyZsh = {
+      enable = true;
+      plugins = [
+        "command-not-found"
+        "fzf"
+        "git"
+        "history"
+      ];
+    };
+    interactiveShellInit =
+      ''
+        eval "$(${pkgs.direnv}/bin/direnv hook zsh)"
+        export GPG_TTY="$(tty)"
+      '';
+  };
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
@@ -61,5 +79,5 @@
   system.stateVersion = "24.05"; # Did you read the comment?
 
   security.sudo.wheelNeedsPassword = false;
-  environment.pathsToLink = ["/share/zsh"];
+  environment.pathsToLink = [ "/share/zsh" ];
 }
