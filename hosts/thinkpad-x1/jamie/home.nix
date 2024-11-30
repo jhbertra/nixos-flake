@@ -9,10 +9,32 @@
     homeDirectory = "/home/jamie";
     stateVersion = "24.05";
 
-    packages = [
+    packages = with pkgs; [
+      curl
+      jq
+      json2yaml
+      magic-wormhole
+      openssl
+      socat
+      unipicker
+      unzip
+      websocat
+      wget
+      yaml2json
+      yq
+      zip
+      onlykey
+      onlykey-cli
+      onlykey-agent
+      wl-clipboard-rs
     ];
 
-    file = { };
+    file = {
+      ".ssh/github.pub".text = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFF/i8+DXuIwV4iYal0SmhOCDwv9ei8ecdVmdUs9Wvtd <ssh://git@github.com|ed25519>";
+    };
+    shellAliases = {
+      ssh-shell = "onlykey-agent ~/.ssh/github.pub -v --shell";
+    };
   };
 
   modules = {
@@ -26,10 +48,10 @@
     };
     ssh = {
       enable = true;
-      githubIdentityFile = "~/.ssh/id_ed25519";
+      githubIdentityFile = "~/.ssh/github.pub";
     };
     starship.enable = true;
-    nushell.enable = true;
+    nushell.enable = false;
     helix.enable = true;
     neovim.enable = true;
   };
@@ -37,9 +59,10 @@
     bat.enable = true;
     chromium.enable = true;
     direnv.enable = true;
-    direnv.enableNushellIntegration = true;
+    direnv.enableZshIntegration = true;
     firefox.enable = true;
     fzf.enable = true;
+    fzf.enableZshIntegration = true;
     home-manager.enable = true;
     htop.enable = true;
     hyprlock.enable = true;
@@ -55,6 +78,13 @@
     nh.enable = true;
     nh.flake = "/home/jamie/personal/nixos";
     nix-index.enable = true;
+    nix-index.enableZshIntegration = true;
     password-store.enable = true;
+    starship.enableZshIntegration = true;
+    zathura.enable = true;
+    taskwarrior.enable = true;
+    watson.enable = true;
+    watson.enableZshIntegration = true;
+    zsh.enable = true;
   };
 }

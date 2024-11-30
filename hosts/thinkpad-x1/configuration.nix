@@ -110,7 +110,27 @@
       hashedPasswordFile = config.sops.secrets."jamie/hashedPassword".path;
       home = "/home/jamie";
       createHome = true;
+      shell = pkgs.zsh;
     };
+  };
+
+  programs.zsh = {
+    enable = true;
+    autosuggestions.enable = true;
+    enableBashCompletion = true;
+    ohMyZsh = {
+      enable = true;
+      plugins = [
+        "command-not-found"
+        "fzf"
+        "git"
+        "history"
+      ];
+    };
+    interactiveShellInit =
+      ''
+        export GPG_TTY="$(tty)"
+      '';
   };
 
   home-manager = {
@@ -119,7 +139,6 @@
       jamie = import ./jamie/home.nix;
     };
   };
-  home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
 
   # This value determines the NixOS release from which the default
@@ -149,4 +168,5 @@
   };
 
   programs.hyprland.enable = true;
+  services.udev.extraRules = builtins.readFile ../../hardware/onlykey.udev;
 }

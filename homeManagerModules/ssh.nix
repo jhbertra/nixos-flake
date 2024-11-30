@@ -17,7 +17,7 @@ in
       enable = true;
       compression = true;
       extraOptionOverrides = {
-        IdentitiesOnly = "yest";
+        IdentitiesOnly = "yes";
       };
       matchBlocks = {
         "github.com" = {
