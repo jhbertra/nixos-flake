@@ -35,6 +35,9 @@
     shellAliases = {
       ssh-shell = "onlykey-agent ~/.ssh/github.pub -v --shell";
     };
+    sessionVariables = {
+      SHELL = "zsh";
+    };
   };
 
   modules = {
