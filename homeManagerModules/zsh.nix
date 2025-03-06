@@ -20,7 +20,6 @@ in
           "fzf"
           "git"
           "history"
-          "ripgrep"
         ];
       };
       initExtra =

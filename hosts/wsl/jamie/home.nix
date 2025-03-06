@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ ... }:
 
 {
   imports = [
@@ -28,7 +28,6 @@
       githubIdentityFile = "~/.ssh/id_ed25519";
     };
     starship.enable = true;
-    zsh.enable = true;
     neovim.enable = true;
   };
   programs = {
@@ -42,7 +41,10 @@
     less.enable = true;
     man.enable = true;
     nh.enable = true;
-    nh.flake = "/home/jamie/personal/nixos";
+    nh.flake = "/home/jamie/nixos-flake";
     nix-index.enable = true;
+    zsh.enable = true;
+    ripgrep.enable = true;
+    git.signing.gpgPath = "/mnt/c/Program Files (x86)/gnupg/bin/gpg.exe";
   };
 }

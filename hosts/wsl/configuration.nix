@@ -1,8 +1,10 @@
-{ config, pkgs, inputs, ... }: {
+{ pkgs, inputs, ... }: {
   imports = [
     inputs.home-manager.nixosModules.home-manager
     inputs.nixos-wsl.nixosModules.wsl
   ];
+
+  nix.settings.trusted-users = ["root" "wheel"];
 
   nixpkgs.system = "x86_64-linux";
 
@@ -24,6 +26,14 @@
 
   wsl.enable = true;
   wsl.defaultUser = "jamie";
+  # wsl.wslConf.network.generateResolvConf = false;
+
+  # networking.nameservers = [
+  #   "10.0.0.69"
+  #   "10.0.0.70"
+  # ];
+
+  networking.domain = "rossvideo.com";
 
   users.defaultUserShell = pkgs.zsh;
   users.mutableUsers = true;
@@ -80,4 +90,18 @@
 
   security.sudo.wheelNeedsPassword = false;
   environment.pathsToLink = [ "/share/zsh" ];
+
+  systemd.services = {
+    wsl-vpnkit = {
+      enable = true;
+      description = "wsl-vpnkit";
+
+      serviceConfig = {
+        ExecStart = "${pkgs.wsl-vpnkit}/bin/wsl-vpnkit";
+        Type = "idle";
+        Restart = "always";
+        KillMode = "mixed";
+      };
+    };
+  };
 }
